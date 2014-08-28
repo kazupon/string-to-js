@@ -43,8 +43,18 @@ describe('duo-string-to-js', function() {
     var js = yield duo.run();
     var ctx = evaluate(js).main;
     assert('js' == ctx);
+  });
 
-  })
+  it('should raise error if the invalid json require', function *() {
+    var duo = build('invalid');
+    duo.use(str2js());
+    try {
+      yield duo.run();
+      assert(false);
+    } catch (e) {
+      assert('invalid json format' == e.message);
+    }
+  });
 })
 
 /**
